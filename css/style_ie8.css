@@ -1,0 +1,14 @@
+/* IE Stylesheet */
+
+/* 6.4 Screenshots */
+
+#screenshots .image-gallery a {
+background:url(../images/bg_zoom.png) no-repeat center center #dca400;
+display:block;
+float:left;
+margin:0 15px 15px 0;
+padding:0!important;
+width:220px;
+height:auto;
+box-shadow:0 1px 2px #ccc;
+}
