@@ -113,7 +113,7 @@ background: -o-linear-gradient(top,  #ffd42c 0%,#e2b620 100%); /* Opera 11.10+ *
 background: -ms-linear-gradient(top,  #ffd42c 0%,#e2b620 100%); /* IE10+ */
 background: linear-gradient(to bottom,  #ffd42c 0%,#e2b620 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2b620', endColorstr='#e2b620',GradientType=0 ); /* IE6-8 */
-font-family: 'Bree Serif', serif;
+font-family: 'Open sans', serif;
 color:#fff;
 font-size:2.0em;
 text-shadow:0 -1px #35490e;
@@ -190,7 +190,7 @@ background: -o-linear-gradient(top,  #ffd42c 0%,#e2b620 100%); /* Opera 11.10+ *
 background: -ms-linear-gradient(top,  #ffd42c 0%,#e2b620 100%); /* IE10+ */
 background: linear-gradient(to bottom,  #ffd42c 0%,#e2b620 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2b620', endColorstr='#e2b620',GradientType=0 ); /* IE6-8 */
-font-family: 'Bree Serif', serif;
+font-family: 'Open sans', serif;
 color:#fff;
 font-size:1.4em;
 text-shadow:0 -1px #35490e;
@@ -211,7 +211,7 @@ border-radius:5px;
 /* 3.1 Fonts */
 
 h1, h2 {
-font-family: 'Bree Serif', serif;
+font-family: 'Open sans', serif;
 }
 
 #main_content h2 {
@@ -294,7 +294,7 @@ margin-bottom:15px;
 }
 
 #main_content h2 {
-font-family: 'Bree Serif', serif;
+font-family: 'Open sans', serif;
 font-weight:400;
 color:#333;
 font-size:2.0em;
@@ -326,7 +326,7 @@ float:left;
 }
 
 #pricing h4 {
-font-family: 'Bree Serif', serif;
+font-family: 'Open sans', serif;
 color:#666;
 text-align:center;
 font-weight:normal;
@@ -597,7 +597,7 @@ background: -o-linear-gradient(top,  #ffd42c 0%,#e2b620 100%); /* Opera 11.10+ *
 background: -ms-linear-gradient(top,  #ffd42c 0%,#e2b620 100%); /* IE10+ */
 background: linear-gradient(to bottom,  #ffd42c 0%,#e2b620 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2b620', endColorstr='#e2b620',GradientType=0 ); /* IE6-8 */
-font-family: 'Bree Serif', serif;
+font-family: 'Open sans', serif;
 color:#fff;
 font-size:1.4em;
 text-shadow:0 -1px #35490e;
@@ -678,7 +678,7 @@ list-style:none;
 }
 
 .price {
-font-family: 'Bree Serif', serif;
+font-family: 'Open sans', serif;
 font-size:4.8em;
 margin:0;
 }
@@ -897,7 +897,7 @@ background: -o-linear-gradient(top,  #ffd42c 0%,#e2b620 100%); /* Opera 11.10+ *
 background: -ms-linear-gradient(top,  #ffd42c 0%,#e2b620 100%); /* IE10+ */
 background: linear-gradient(to bottom,  #ffd42c 0%,#e2b620 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2b620', endColorstr='#e2b620',GradientType=0 ); /* IE6-8 */
-font-family: 'Bree Serif', serif;
+font-family: 'Open sans', serif;
 color:#fff;
 font-size:1.4em;
 text-shadow:0 -1px #35490e;
@@ -1023,7 +1023,7 @@ color:#999;
   top: 10px !important;
   background-color: #eee;
   z-index: 1000;
-  
+
 }
 
 .reveal-modal-bg { position: fixed; height: 100%; width: 100%; background: #000; opacity: 0.85; filter: alpha(opacity=85); z-index: 999; display: none; top: 0; left: 0; }
