@@ -169,7 +169,6 @@ background:url(../images/bg_button_green.png) no-repeat right -71px;
 }
 
 .button_text {
-box-shadow:inset 0 1px #ffc526;
 padding:6px 15px 6px 10px;
 border-top-right-radius:5px;
 -moz-border-radius-topright:5px;
