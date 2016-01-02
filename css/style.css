@@ -1334,6 +1334,10 @@ display:block;
         width: 430px;
     }
 
+    #look {
+      display: none;
+    }
+
 
 /*Headings*/
 
@@ -1455,6 +1459,10 @@ display:block;
 
     .one_half, .one_third, .two_thirds, .one_fourth, .three_fourths, .one_half .one_fourth {
         width: 285px;
+    }
+
+    #look {
+      display: none;
     }
 
 /*Banner*/
