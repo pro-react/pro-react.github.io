@@ -54,7 +54,7 @@ max-width: 100%;
 
 a { color: #dca400; text-decoration: none; line-height: inherit; }
 
-a:hover { color: ; }
+a:hover { text-decoration: underline; }
 
 a:focus { color: ; }
 
@@ -967,6 +967,10 @@ a#contact_close_counter {
 /*------------------------------------------------------------------------------------------*/
 /* 8. Landing Page Header */
 /*------------------------------------------------------------------------------------------*/
+
+#online_materials a{
+  color: #333;
+}
 
 #page_header {
 color:#999;
