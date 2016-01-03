@@ -250,7 +250,7 @@ h5{font-size: 1.2em;}
 /* 3.2 Headings */
 
 #logo {
-color:#ffffff;
+color:#555555;
 }
 
 #logo img {
@@ -965,33 +965,37 @@ a#contact_close_counter {
 
 
 /*------------------------------------------------------------------------------------------*/
-/* 8. Landing Page Footer */
+/* 8. Landing Page Header */
 /*------------------------------------------------------------------------------------------*/
 
-#page_footer {
+#page_header {
 color:#999;
 }
 
-#page_footer.row {
-padding:15px 0 15px 0;
+#page_menu {
+  margin-top: 15px;
 }
 
-#page_footer ul, #page_footer p {
+#page_header.row {
+padding:15px 0 0 0;
+}
+
+#page_header ul, #page_header p {
 display:inline;
 margin:0;
 padding:0;
 }
 
-#page_footer p {
+#page_header p {
 float:right;
 }
 
-#page_footer ul li {
+#page_header ul li {
 display:inline;
 padding:0 5px 0 0;
 }
 
-#page_footer a {
+#page_header a {
 color:#999;
 }
 
@@ -1306,10 +1310,12 @@ margin:5px 0 0 0;
 
 	/*Footer*/
 
-	#page_footer p {
+	#page_header p {
 float:none;
 display:block;
 }
+
+
 
 }
 
@@ -1330,6 +1336,11 @@ display:block;
 
     #look {
       display: none;
+    }
+
+    #page_menu {
+      margin-top: 0;
+      text-align: center;
     }
 
 
@@ -1428,7 +1439,7 @@ margin:5px 0 0 0;
 
 /*Footer*/
 
-#page_footer p {
+#page_header p {
 float:none;
 display:block;
 }
@@ -1457,6 +1468,11 @@ display:block;
 
     #look {
       display: none;
+    }
+
+    #page_menu {
+      margin-top: 0;
+      text-align: center;
     }
 
 /*Banner*/
@@ -1560,7 +1576,7 @@ width: 250px;
 
 /*Footer*/
 
-#page_footer p {
+#page_header p {
 float:none;
 display:block;
 }
