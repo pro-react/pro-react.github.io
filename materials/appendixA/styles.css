@@ -122,6 +122,7 @@ p, li{
 header {
   display: none;
   height: 40px;
+  position: relative;
 }
 
 header button {
@@ -129,6 +130,9 @@ header button {
   background: none;
   color: #fff;
   font-size: 25px;
+  position: absolute;
+top: 50%;
+transform: translateY(-50%);
 }
 header button:focus {outline:0;}
 
