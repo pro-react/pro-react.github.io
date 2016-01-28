@@ -2,10 +2,10 @@ var navVisible = false;
 $('#menu').click(function(e){
   if(navVisible){
     navVisible = false;
-    $('nav').hide();
+    $('nav').removeClass('open');
   } else {
     navVisible = true;
-    $('nav').show();
+    $('nav').addClass('open');
   }
 });
 
@@ -20,8 +20,8 @@ $(window).on('resize', function(){
 
 function moveNavigation(){
   if($(window).width()>1023){
-    $('nav').show();
-    navVisible = true;
+    $('nav').removeClass('open');
+    navVisible = false;
 
   }
   resizing = false;
