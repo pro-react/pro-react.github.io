@@ -172,6 +172,12 @@ and (max-width : 1023px) {
     margin-left: 0px;
     width: 100%;
   }
+
+  #content {
+    max-width: 800px;
+    margin: auto;
+    padding: 40px 10px 10px 10px;
+  }
 }
 
 nav #menu-items {
