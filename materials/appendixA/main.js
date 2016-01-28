@@ -8,7 +8,7 @@ $('#menu').click(function(e){
     $('nav').show();
   }
 });
-console.log("fre")
+
 var resizing = false;
 $(window).on('resize', function(){
  if( !resizing ) {
@@ -26,6 +26,7 @@ function moveNavigation(){
   }
   resizing = false;
 }
+
 
 
 // Cache selectors

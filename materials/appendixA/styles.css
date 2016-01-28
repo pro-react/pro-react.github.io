@@ -131,10 +131,16 @@ header button {
   color: #fff;
   font-size: 25px;
   position: absolute;
-top: 50%;
-transform: translateY(-50%);
+  top: 54%;
+  transform: translateY(-50%);
 }
 header button:focus {outline:0;}
+
+header button svg {
+    fill: #fff;
+}​
+
+
 
 main {
   width: calc(100% - 270px);
