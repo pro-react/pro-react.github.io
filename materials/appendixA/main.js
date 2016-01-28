@@ -8,6 +8,25 @@ $('#menu').click(function(e){
     $('nav').show();
   }
 });
+console.log("fre")
+var resizing = false;
+$(window).on('resize', function(){
+ if( !resizing ) {
+ 	window.requestAnimationFrame(moveNavigation);
+ 	resizing = true;
+ }
+});
+
+
+function moveNavigation(){
+  if($(window).width()>1023){
+    $('nav').show();
+    navVisible = true;
+
+  }
+  resizing = false;
+}
+
 
 // Cache selectors
 var lastId,
