@@ -169,6 +169,7 @@ and (max-width : 1023px) {
     width: 100%;
     background-color: #ffc424;
     padding-left: 5px;
+    z-index: 10;
   }
 
   nav {
@@ -186,6 +187,39 @@ and (max-width : 1023px) {
     margin: auto;
     padding: 40px 10px 10px 10px;
   }
+
+  /* Force table to not be like tables anymore */
+	table, thead, tbody, th, td, tr {
+		display: block;
+	}
+
+	/* Hide table headers (but not display: none;, for accessibility) */
+	thead tr {
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+
+	tr { border: 1px solid #ccc; }
+
+	td {
+		/* Behave  like a "row" */
+		border: none;
+		border-bottom: 1px solid #eee;
+		position: relative;
+	}
+
+	td:before {
+		/* Now like a table header */
+		position: absolute;
+		/* Top/left values mimic padding */
+		top: 6px;
+		left: 6px;
+		width: 45%;
+		padding-right: 10px;
+		white-space: nowrap;
+	}
+
 }
 
 nav #menu-items {
