@@ -193,6 +193,7 @@ and (max-width : 1023px) {
     margin-top: 40px;
     transform: translateX(-100%);
     transition: transform .5s;
+    z-index: 9;
   }
 
   nav.open {
