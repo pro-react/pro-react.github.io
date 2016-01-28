@@ -137,10 +137,8 @@ header button {
 header button:focus {outline:0;}
 
 header button svg {
-    fill: #fff;
-}​
-
-
+    fill: #ffffff;
+}
 
 main {
   width: calc(100% - 270px);
