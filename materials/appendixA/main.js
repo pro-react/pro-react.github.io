@@ -9,6 +9,13 @@ $('#menu').click(function(e){
   }
 });
 
+$('main').click(function(e){
+  if(navVisible){
+    navVisible = false;
+    $('nav').removeClass('open');
+  }
+});
+
 var resizing = false;
 $(window).on('resize', function(){
  if( !resizing ) {
