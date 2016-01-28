@@ -130,6 +130,8 @@ header button {
   background: none;
   color: #fff;
   font-size: 25px;
+  width: 32px;
+  padding: 0;
   position: absolute;
   top: 54%;
   transform: translateY(-50%);
@@ -143,14 +145,14 @@ header button svg {
 header span{
   display: block;
   position: absolute;
-  top: 20%;
+  top: 25%;
   transform: translateY(-50%);
   left: 50%;
   transform: translateX(-50%);
   font-family: 'Montserrat', "Lucida Grande","Lucida Sans Unicode","Lucida Sans",Geneva,Verdana,sans-serif;
   font-weight: 400;
   font-style: normal;
-  font-size: 20px;
+  font-size: 17px;
   color: #fff;
 }
 
@@ -182,7 +184,7 @@ and (max-width : 1023px) {
     position: fixed;
     width: 100%;
     background-color: #f3bb22;
-    padding-left: 5px;
+    padding-left: 8px;
     z-index: 10;
   }
 
