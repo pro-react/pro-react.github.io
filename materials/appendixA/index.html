@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Webpack for React</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/8.7/styles/github.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Neuton' rel='stylesheet' type='text/css'>
+    <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <button id="menu">☰</button>
+    </header>
+    <nav>
+      <a href="http://www.pro-react.com">
+        <img src="images/pro-react-cover.png" alt="Pro React" width="150"/>
+      </a>
+      <h1>Appendix A</h1>
+      <div id="menu-items">
+        <ul>
+          <li><a href="#appendixa">Webpack for React</a></li>
+          <li>
+            <ul>
+              <li><a href="#whatis">What is Webpack?</a></li>
+              <li><a href="#howdoes">How does Webpack compare?</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#gettingstarted">Getting Started</a></li>
+          <li>
+            <ul>
+              <li><a href="#sampleproject">Sample project</a></li>
+              <li><a href="#runningyour">Running Your First Build</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#configuringwebpack">Configuring Webpack</a></li>
+          <li>
+            <ul>
+              <li><a href="#addingtask">Adding task Shortcuts</a></li>
+              <li><a href="#generatingsource">Generating source maps</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#webpackdevelopment">Webpack Development Server</a></li>
+          <li>
+            <ul>
+              <li></li>
+            </ul>
+          </li>
+
+          <li><a href="#loaders">Loaders</a></li>
+          <li>
+            <ul>
+              <li><a href="#babel">Babel</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#beyondjavascript">Beyond JavaScript</a></li>
+          <li>
+            <ul>
+              <li><a href="#stylesheets">Stylesheets</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#plugins">Plugins</a></li>
+          <li>
+            <ul>
+              <li><a href="#usingplugins">Using Plugins</a></li>
+              <li><a href="#htmlwebpackplugin">Generating the HTML</a></li>
+              <li><a href="#hotmodule">Hot Module Replacement</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#buildingfor">Building for production</a></li>
+          <li>
+            <ul>
+              <li><a href="#optimizationplugins">Optimization Plugins</a></li>
+              <li><a href="#caching">Caching</a></li>
+            </ul>
+          </li>
+
+          <li><a href="#summary">Summary</a></li>
+        </ul>
+      </div>
+      <br/>
+    </nav>
+
+    <main>
+      <div id="content">
+      <h1 id="appendixa">Appendix A: Webpack for React</h1>
+
+      <p>Although Webpack is used throughout the book, the primary focus of the book is on React, so Webpack didn't get a comprehensive treatment. In this Appendix, you will have the chance to examine Webpack in depth and get a better understanding of the way it works and learn more about loaders and plugins. By the end of this appendix you will be confident to configure Webpack to create the ideal development environment for your projects.</p>
+
+
+      <h2 id="whatis">What is Webpack?</h2>
+
+      <p>Over the years, web development evolved from pages with few assets and little to none JavaScript into full featured web applications with complex JavaScript and big dependency trees (files that depend upon multiple other files).</p>
+
+      <p>To help cope with this growing complexity, the community came up with different approaches and practices, such as:
+        <ul>
+          <li>The usage of modules in JavaScript, allowing us to divide and organize a program into several files.</li>
+          <li>JavaScript pre-processors (that allows us to use features today that will be available only in future versions of JavaScript) and compile-to-JavaScript languages (Such as CoffeeScript, for example)</li>
+        </ul>
+
+      </p>
+
+      <p>But while immensely helpful, these advances have brought the need for an additional step in the development process: We need to bundle together and transform (transpile / compile) these files into something that the browser can understand. That's where tools such as Webpack are necessary.</p>
+
+      <p>Webpack is a module bundler: A tool that can analyze your project's structure, find JavaScript modules and other assets to bundle and pack them for the browser.</p>
+
+
+
+
+      <h2 id="howdoes">How does Webpack compare to build tools such as Grunt and Gulp?</h2>
+
+      <p>Webpack is different from task runners and build systems such as Grunt and Gulp because it's not a build tool itself, but it can replace them with advantages.</p>
+
+      <p>Build tools such as Grunt and Gulp work by looking into a defined path for files that match your configuration. In the configuration file you also specify the tasks and steps that should run to transform, combine and/or minify each of these files. <br /> <img src="images/picture1.png" width="800" /></p>
+
+      <p>Webpack, instead, analyzes your project as a whole. Given a starting main file, Webpack looks through all of your project's dependencies (by following require and import statements in JavaScript), process them using loaders and generate a bundled JavaScript file.<br /> <img src="images/picture2.png" width="656"/></p>
+
+      <p>Webpack's approach is faster and more straightforward. And, as you will see later in this chapter, opens lots of new possibilities for bundling different file types.</p>
+
+
+      <hr class="section-divider" />
+
+
+      <h1 id="gettingstarted">Getting Started</h1>
+
+      <p>Webpack can be installed through npm. Install it globally using <pre><code class="bash">npm install -g webpack</code></pre></p>
+      <p>or add it as dependency in your project with <pre><code class="bash">npm install --save-dev webpack</code></pre></p>
+
+
+
+      <h2 id="sampleproject">Sample project</h2>
+
+      <p>Let's create a sample project to use Webpack. Start with a new, empty folder and create a package.json file - a standard npm manifest that holds various information about the project and let the developer specify dependencies (that can get automatically downloaded and installed) and define script tasks. To create a package.json file, run the following command on the terminal:</p>
+
+      <p><pre><code class="bash">npm init</code></pre></p>
+
+      <p>The init command will ask you a series of questions regarding your project (such as project name, description, information about the author, etc.) Don't worry too much - the answers to the questions are not so important if you don't want to publish your project to npm.</p>
+
+      <p>With a package.json file in place, add webpack as a project dependency and install it with:</p>
+
+      <p><pre><code class="bash">npm install --save-dev webpack</code></pre></p>
+
+      <p>With the project set up and webpack installed, let's move on to the project structure, which will consist of two folders: an "app" folder for original source code / JavaScript modules, and a "public" folder for files that are ready to be used in the browser (which include the bundled JavaScript file generated by Webpack, as well as an index.html file). You will create three files: An index.html file on the public folder and two JavaScript files on the app folder: main.js and Greeter.js. At the end, the project structure will look like the image below:<br /><img src="images/picture3.png" width="175"/></p>
+
+      <p>The index.html will contain a pretty basic HTML page, whose only purpose is load the bundled JavaScript file:</p>
+      <p><pre><code>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;title&gt;Webpack Sample Project&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id='root'&gt;
+    &lt;/div&gt;
+    &lt;script src=&quot;bundle.js&quot;&gt;&lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+      </code></pre></p>
+
+      <p>Next, you will head to the JavaScript files: main.js and Greeter.js. The Greeter.js is simply a function that returns a new HTML element with a greeting message. The main.js file will require the Greeter and insert the returned element on the page.</p>
+
+      <p class="code-caption">The main.js source code:</p>
+      <p><pre><code>
+var greeter = require('./Greeter.js');
+document.getElementById('root').appendChild(greeter());
+      </code></pre></p>
+
+      <p class="code-caption">The Greeter.js source code:</p>
+
+      <p><pre><code>
+module.exports = function() {
+  var greet = document.createElement('div');
+  greet.textContent = &quot;Hi there and greetings!&quot;;
+  return greet;
+};
+      </code></pre></p>
+
+      <div class="note">
+        <p><strong>Note:</strong> "Throughou"t the book, the recently standardized ES6 module definition was used. In it's current version, though, Webpack only supports the commonJS module definition out of the box (i.e. require). Using ES6 modules with webpack will be covered later in this appendix.</p>
+      </div>
+
+
+
+
+      <h2 id="runningyour">Running Your First Build</h2>
+
+      <p>The basic command line syntax for webpack is "webpack {entry file} {destination for bundled file}". Remember, Webpack requires you to point only one entry file - it will figure out all the project's dependencies automatically. Additionally, if you don't have webpack installed globally, you will need to reference the webpack command in the node_modules folder of your project. For the sample project, the command will look like this:</p>
+
+      <p><pre><code class='bash'>node_modules/.bin/webpack app/main.js public/bundle.js</code></pre></p>
+
+      <p>You should see the following output in the terminal:</p>
+
+      <p><img src="images/picture4.png" width="660" /></p>
+
+      <p>Notice that Webpack bundled both the main.js and the Greeter.js files. If you open the index.html file on the browser, the result will look like this:<br /><img src="images/picture5.png" width="400" /></p>
+
+
+
+
+      <hr class="section-divider" />
+
+
+
+      <h1 id="configuringwebpack">Configuring Webpack</h1>
+
+      <p>Webpack has a lot of different and advanced options and allows for the usage of loaders and plugins to apply transformations on the loaded modules. Although its possible to use webpack with all options from the command line, the process tends to get slow and error-prone. A better approach is to define a configuration file - a simple JavaScript module where you can put all information relating to your build.</p>
+
+      <p>To exemplify, create a file named webpack.config.js in your sample project. At bare minimum, the Webpack configuration file must reference the entry file and the destination for the bundled file:</p>
+
+      <p><pre><code>
+module.exports = {
+  entry:  __dirname + &quot;/app/main.js&quot;,
+  output: {
+    path: __dirname + &quot;/public&quot;,
+    filename: &quot;bundle.js&quot;
+  }
+}
+      </code></pre></p>
+
+      <div class="note">
+        <p><strong>Note:</strong> "__dirname" is a node.js global variable containing the name of the directory that the currently executing script resides in.</p>
+      </div>
+
+      <p>Now you can simply run 'webpack' on the terminal without any parameters - since a webpack.config file is now present, the webpack command will build your application based on the configuration made available. The result of the command should look like this:<br /><img src="images/picture6.png" width="430" /></p>
+
+
+
+      <h2 id="addingtask">Adding task Shortcuts</h2>
+
+      <p>Executing a long command such as "node_modules/.bin/webpack" is boring and error prone. Thankfully, npm can be used as a task runner, hiding verbose scripts under simple commands such as "npm start". This can be achieved easily by setting up a scripts section to package.json, as shown below:</p>
+
+      <p><pre><code>
+{
+  &quot;name&quot;: &quot;webpack-sample-project&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Sample webpack project&quot;,
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;node_modules/.bin/webpack&quot;
+  },
+  &quot;author&quot;: &quot;C&aacute;ssio Zen&quot;,
+  &quot;license&quot;: &quot;ISC&quot;,
+  &quot;devDependencies&quot;: {
+    &quot;webpack&quot;: &quot;^1.12.9&quot;
+  }
+}
+      </code></pre></js>
+
+      <p>"start" is a special script name that can be executed with the command "npm start". You can create any other script names that you want, but in order to execute them you will need to use the command "npm run {script name}" (such as "npm run build", for example). You can see below the webpack command being executed from the npm start script:<br /><img src="images/picture7.png" width="625" /></p>
+
+
+
+      <h2 id="generatingsource">Generating source maps</h2>
+
+      <p>There is a handful of options for configuring Webpack - Let's get started with one of most important and used ones: Source Maps.</p>
+
+      <p>While packing together all of your project's JavaScript modules into one (or a few) bundled file to use on the browser present a lot of advantages, one clear disadvantage is that you won't be able to reference back your original code in their original files when debugging in the browser - It becomes very challenging to locate exactly where the code you are trying to debug maps to your original authored code. However, Webpack can generate source maps when bundling - A source map provides a way of mapping code within a bundled file back to it's original source file, making the code readable and easier to debug in the browser.</p>
+
+      <p>To configure Webpack to generate source maps that points to the original files, use the "devtool" setting with one of the following options:</p>
+
+      <table>
+        <tr>
+          <th width="260">
+            <p>devtool option</p>
+          </th>
+          <th>
+            <p>Description</p>
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <p><strong>source-map</strong></p>
+          </td>
+          <td>
+            <p>Generate a complete, full featured source map in a separate file. This option has the best quality of source map, but it does slow down the build process.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p><strong>cheap-module-source-map</strong></p>
+          </td>
+          <td>
+            <p>Generate source map in a separate file without column-mappings. Stripping the column mapping favors a better build performance introducing a minor inconvenient for debugging: The browser developer tools will only be able to point to the line of the original source code, but not to a specific column (or character).</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p><strong>eval-source-map</strong></p>
+          </td>
+          <td>
+            <p>Bundles the source code modules using "eval", with nested, complete source map in the same file. This option does generate a full featured source map without a big impact on build time, but with performance and security drawbacks in the JavaScript execution. While it's a good option for using during development, this option should never be used in production.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p><strong>cheap-module-eval-source-map</strong></p>
+          </td>
+          <td>
+            <p>The fastest way to generate a source map during build. The generated source map will be inlined with the same bundled JavaScript file, without column-mappings. As in the previous option, there are drawbacks in JavaScript execution time, so this option is not appropriate for generating production-ready bundles.</p>
+          </td>
+        </tr>
+      </table>
+
+      <p>As you can tell from the descriptions, the options are sorted from the slowest build time (on the top of the table) to the fastest (on the bottom). The options at the top produce better output with fewer downsides, while the options at the bottom introduce penalties during JavaScript execution in order to achieve better build speed.</p>
+
+      <p>Especially during learning and on small to medium sized projects, the "eval-source-map" is a good option: It generates a complete source map and since you can keep a separate configuration file for building production-ready bundles (as you will see later in this appendix), you can use it only during development without introducing any JavaScript execution penalties when the project goes live. You can see below the updated webpack.config.js file for the sample project.</p>
+
+      <p><pre><code>
+module.exports = {
+<strong>  devtool: 'eval-source-map',</strong>
+  entry:  __dirname + &quot;/app/main.js&quot;,
+  output: {
+    path: __dirname + &quot;/public&quot;,
+    filename: &quot;bundle.js&quot;
+  }
+}
+      </code></pre></p>
+
+      <div class='note'>
+        <p><strong>Note:</strong> "There are" even faster options for devtool (namely eval, cheap-source-map and cheap-eval-source-map). Although faster, these options don't map the bundled code straight to the original source files, and are more appropriate for bigger projects were build times are a concern. You can learn more about all the available options at webpack's documentation (http://webpack.github.io/docs/configuration.html#devtool)</p>
+      </div>
+
+
+
+      <hr class="section-divider" />
+
+
+      <h1 id="webpackdevelopment">Webpack Development Server</h1>
+
+      <p>Webpack has an optional server for local development purposes. It is a smallnode.js expressapp that serves static files and build your assets according to your webpack configuration, keeping them in memory, and doing so automatically refreshing the browser as you change your source files. It's a separate npm module that should be installed as a project dependency:</p>
+
+      <p><pre><code class="bash">npm install --save-dev webpack-dev-server</code></pre></p>
+
+      <p>The webpack dev server can be configured in the same webpack.config.js configuration file, in a separate "devserver" entry. Configuration settings include:</p>
+
+      <table>
+        <tr>
+          <th>
+            <p>devserver setting</p>
+          </th>
+
+          <th>
+            <p>Description</p>
+          </th>
+        </tr>
+
+        <tr>
+          <td>
+            <p><strong>contentBase</strong></p>
+          </td>
+
+          <td>
+            <p>By default, thewebpack-dev-serverwill serve the files in the root of the project. To serve files from a different folder (such as the "public" folder in our sample project, you need to configure a specific content base.</p>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <p><strong>port</strong></p>
+          </td>
+
+          <td>
+            <p>Which port to use. If omitted, defaults to "8080".</p>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <p><strong>inline</strong></p>
+          </td>
+
+          <td>
+            <p>Set to "true" to insert a small client entry to the bundle to refresh the page on change.</p>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <p><strong>colors</strong></p>
+          </td>
+
+          <td>
+            <p>Add colors to the terminal output when the server is running.</p>
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            <p><strong>historyApiFallback</strong></p>
+          </td>
+
+          <td>
+            <p>Useful during the development of single page applications that make use of the HTML5 history API. When set to "true", all requests to thewebpack-dev-serverthat do not map to an existing asset will instead by routed straight to/, that is, theindex.htmlfile.</p>
+          </td>
+        </tr>
+      </table>
+
+      <p>Putting it all together in the sample project, the webpack configuration file will look like this:</p>
+
+      <p><pre><code class="javascript">
+module.exports = {
+  devtool: 'eval-source-map',
+
+  entry:  __dirname + &quot;/app/main.js&quot;,
+  output: {
+    path: __dirname + &quot;/public&quot;,
+    filename: &quot;bundle.js&quot;
+  },
+
+<strong>  devServer: {
+    contentBase: &quot;./public&quot;,
+    colors: true,
+    historyApiFallback: true,
+    inline: true
+  } </strong>
+}
+      </code></pre></p>
+
+      <p>Instead of running the webpack command, now you will execute the "webpack-dev-server" to start the server. As you did previously, you will need to specify the path to the executable inside your project's node modules:</p>
+
+      <p><pre><code class='bash'>node_modules/.bin/webpack-dev-server</code></pre></p>
+
+      <p>For convenience, you can edit the "scripts" section in your project's package.json file to run the server by invoking "npm start", as shown below:</p>
+
+      <p><pre><code>
+{
+  &quot;name&quot;: &quot;webpack-sample-project&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Sample webpack project&quot;,
+  <strong>&quot;scripts&quot;: {
+    &quot;start&quot;: &quot;node_modules/.bin/webpack-dev-server --progress&quot;
+  },</strong>
+  &quot;author&quot;: &quot;C&aacute;ssio Zen&quot;,
+  &quot;license&quot;: &quot;ISC&quot;,
+  &quot;devDependencies&quot;: {
+    &quot;webpack&quot;: &quot;^1.12.9&quot;,
+    &quot;webpack-dev-server&quot;: &quot;^1.14.0&quot;
+  }
+}
+      </code></pre></p>
+
+      <div class='note'>
+        <p><strong>Tip:</strong> The "--progress" parameter is only available in the command line. It shows a progress indicator in the terminal during the build step.</p>
+      </div>
+
+
+
+      <hr class="section-divider" />
+
+
+
+      <h1 id="loaders">Loaders</h1>
+
+      <p>One of the most exiting features of Webpack are loaders. Through the use of loaders, webpack can preprocess the source files through external scripts and tools as it loads them to apply all kinds of changes and transformations. These transformations are useful in many circumstances, for example for parsing JSON files into plain JavaScript or turning next generation's JavaScript code into regular JavaScript that current browsers can understand (so you can use next generation features today). Loaders are also essential for React development, as they can be used to transform React's JSX into plain JavaScript.</p>
+
+      <p>Loaders need to be installed separately and should be configured under the "modules" key in webpack.config.js. Loader configuration setting include:
+        <ul>
+          <li><strong>test:</strong> &nbsp;A regular expression that matches the file extensions that should run through this loader (Required).</li>
+          <li><strong>loader:</strong> &nbsp;The name of the loader (Required).</li>
+          <li><strong>include / exclude:</strong> &nbsp; Optional setting to manually set which folders and files the loader should explicitly add or ignore.</li>
+          <li><strong>query:</strong> &nbsp;The query setting can be used to pass Additional options to the loader.</li>
+        </ul>
+      </p>
+
+      <p>To exemplify, let's change our sample application and move the greeting text to a separate Json configuration file. Start by installing Webpack's json loader module:</p>
+
+      <p><pre><code class='bash'>npm install --save json-loader</code></pre></p>
+
+      <p>Next, edit the webpack configuration file to add the JSON loader:</p>
+
+      <p><pre><code class='javascript'>
+module.exports = {
+  devtool: 'eval-source-map',
+
+  entry:  __dirname + &quot;/app/main.js&quot;,
+  output: {
+    path: __dirname + &quot;/public&quot;,
+    filename: &quot;bundle.js&quot;
+  },
+<strong>
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: &quot;json&quot;
+      }
+    ]
+  },
+</strong>
+  devServer: {
+    contentBase: &quot;./public&quot;,
+    colors: true,
+    historyApiFallback: true,
+    inline: true
+  }
+}
+      </code></pre></p>
+
+      <p>Finally, let's create a config.json file and require it inside the Greeter module. The source code for the new config.json file is shown below:</p>
+      <p><pre><code class='json'>
+{
+  &quot;greetText&quot;: &quot;Hi there and greetings from JSON!&quot;
+}
+      </code></pre></p>
+
+      <p>The updated Greeter.js:</p>
+      <p><pre><code class="javascript">
+<strong>var config = require('./config.json');</strong>
+
+module.exports = function() {
+  var greet = document.createElement('div');
+  greet.textContent = <strong>config.greetText;</strong>
+  return greet;
+};
+      </code></pre></p>
+
+
+
+      <h2 id="babel">Babel</h2>
+
+      <p>Babel is a platform for JavaScript compilation and tooling. It's a powerful tool that, among other things, let you:
+        <ul>
+          <li>Use next versions of JavaScript (ES6 / ES2015, ES7 / ES2016, etc.), not yet fully supported in all browsers.</li>
+          <li>Use JavaScript syntax extensions, such as React's JSX.</li>
+        </ul>
+      </p>
+
+      <p>Babel is a stand alone tool, but it can be used as a loader and pair very well with Webpack.</p>
+
+
+
+      <h3>Installation and configuration</h3>
+
+      <p>Babel is modular and distributed in different npm modules. The core functionality is available in the "babel-core" npm package, the integration with webpack is available through the "babel-loader" npm package, and for every type of feature and extensions you want to make available to your code, you will need to install a separate package (the most common are babel-preset-es2015 and babel-preset-react, for compiling ES6 and React's JSX, respectively).</p>
+
+      <p>To install all at once as development dependencies, you can use:</p>
+
+      <p><pre><code class='bash'>npm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-react</code></pre></p>
+
+      <p>Like any webpack loader, babel can be configured in the modules section of the webpack configuration file. You can see below the updated webpack.config.js for the sample project with the added babel loader.</p>
+
+
+      <p><pre><code class='javascript'>
+module.exports = {
+  devtool: 'eval-source-map',
+
+  entry:  __dirname + &quot;/app/main.js&quot;,
+  output: {
+    path: __dirname + &quot;/public&quot;,
+    filename: &quot;bundle.js&quot;
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: &quot;json&quot;
+      },
+      <strong>{
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          presets: ['es2015','react']
+        }
+      }</strong>
+    ]
+  },
+
+  devServer: {
+    contentBase: &quot;./public&quot;,
+    colors: true,
+    historyApiFallback: true,
+    inline: true
+  }
+}
+      </code></pre></p>
+
+      <p>Now that your webpack configuration makes it possible to use ES6 modules and syntax, as well as JSX, let's refactor the sample project to make use of these features. Start by installing React and React-DOM:</p>
+
+      <p><pre><code class='bash'>npm install --save react react-dom</code></pre></p>
+
+
+      <p>Next, update the Greeter source file to use ES6 module definition and return a React component, as show below:</p>
+
+      <p><pre><code class='javascript'>
+import React, {Component} from 'react'
+import config from './config.json';
+
+class Greeter extends Component{
+  render() {
+    return (
+      &lt;div&gt;
+        {config.greetText}
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default Greeter
+    </code></pre></p>
+
+    <p>Finally, you will update the main.js file to use ES6 modules definition and to render the greeter react component:</p>
+
+    <p><pre><code class='javascript'>
+import React from 'react';
+import {render} from 'react-dom';
+import Greeter from './Greeter';
+
+render(&lt;Greeter /&gt;, document.getElementById('root'));
+      </code></pre></p>
+
+
+      <h3>Babel configuration file</h3>
+
+      <p>Babel can be entirely configured within webpack.config.js, but since it has many configuration settings, options and combinations, it can quickly get cumbersome to handle everything in the same file. For this reason, many developers opt to create a separate babel resource configuration - namely, a ".babelrc" file (with a leading dot).</p>
+
+      <p>The only babel-specific configuration we have in place so far is the presets definition - which may not justify the creation of a babel-specific configuration file. But since additional webpack and babel features will be covered in the following topics of this appendix, let's take the opportunity to create it right now. First, remove the presets configuration from the webpack.config.js file, leaving only the basic loader setup:</p>
+
+      <p><pre><code class="javascript">
+module.exports = {
+  devtool: 'eval-source-map',
+
+  entry:  __dirname + &quot;/app/main.js&quot;,
+  output: {
+    path: __dirname + &quot;/public&quot;,
+    filename: &quot;bundle.js&quot;
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: &quot;json&quot;
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel'
+      }
+    ]
+  },
+
+  devServer: {...} // Omitted for brevity
+}
+      </code></pre></p>
+
+      <p>In sequence, create a file named ".babelrc", which will contain the babel's presets configuration:</p>
+      <p><pre><code class="json">
+{
+  &quot;presets&quot;: [&quot;react&quot;, &quot;es2015&quot;]
+}
+      </code></pre></p>
+
+
+      <hr />
+
+      <h1 id="beyondjavascript">Beyond JavaScript</h1>
+
+      <p>One of Webpack's most unique characteristics is that it can treat every kind of file as a module - Not only your JavaScript code, but also CSS, fonts - with the appropriate loaders, all can be treated as modules. Webpack can follow @import and URL values in CSS through all dependency three and then then build, preprocess and bundle your assets.</p>
+
+
+
+      <h2 id="stylesheets">Stylesheets</h2>
+
+      <p>Webpack provides two loaders to deal with stylesheets: css-loader and style-loader. Each loader deals with different tasks: While the css-loader looks for @import and url statements and resolves them, the style-loader adds all the computed style rules into the page. Combined together, these loaders enable you to embed stylesheets into a Webpack JavaScript bundle.</p>
+
+      <p>To demonstrate, let's setup the css-loader and the style-loader on the sample project. Start by installing both css-loader and style-loader with npm:</p>
+
+      <p><pre><code class='bash'>npm install --save-dev style-loader css-loader</code></pre></p>
+
+      <p>In sequence, update the webpack configuration file, as shown below:</p>
+
+      <p><pre><code class='javascript'>
+module.exports = {
+  devtool: 'eval-source-map',
+
+  entry:  __dirname + &quot;/app/main.js&quot;,
+  output: {
+    path: __dirname + &quot;/build&quot;,
+    filename: &quot;bundle.js&quot;
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: &quot;json&quot;
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel'
+      },
+      <strong>{
+        test: /\.css$/,
+        loader: 'style!css'
+      }</strong>
+    ]
+  },
+
+  devServer: {...}
+}
+      </code></pre></p>
+
+      <div class="note">
+        <p><strong>Note:</strong> "The excla"mation point ("!") can be used in a loader configuration to chain different loaders to the same file types.</p>
+      </div>
+
+      <p>Next, create a new "main.css" file in your application folder. It will contain some simple rules to define better defaults for an application:
+        <ul>
+          <li>Applies a natural box layout model to all elements.</li>
+          <li>Set default font family.</li>
+          <li>Strip margin and padding from core elements</li>
+        </ul>
+      </p>
+
+      <p>The source code for the new main.css file would be something like this:</p>
+
+      <p><pre><code class='css'>
+html {
+  box-sizing: border-box;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul {
+  margin: 0;
+  padding: 0;
+}
+      </code></pre></p>
+
+      <p>Finally, remember that Webpack starts on an entry file defined in the configuration file and build all the dependency three by following statements like import, require, url among others. This means that your main CSS file must also be imported somewhere in the application in order for webpack to "find" it. In the sample project, let's import the main.css from the main.js entry point:</p>
+
+      <p><pre><code class='javascript'>
+import React from 'react';
+import {render} from 'react-dom';
+import Greeter from './Greeter';
+
+<strong>import './main.css';</strong>
+
+render(&lt;Greeter /&gt;, document.getElementById('root'));
+      </code></pre></p>
+
+      <div class="note">
+        <p><strong>Note:</strong> "By defaul"t, your css rules will be bundled together with the JavaScript file - It wont generate a separate css bundled file. This is great during development, and later in this appendix you will learn how to setup Webpack to create a separate css file for production.</p>
+      </div>
+
+      <h3>CSS Modules</h3>
+
+      <p>In the past few years, JavaScript development has changed significantly with new language features, better tooling and established best practices (such as modules).</p>
+
+      <p>Modules let the developer break the code down into small, clean and independent units with explicitly declared dependencies. Backed by an optimization tool, the dependency management and load order are automatically resolved.</p>
+
+      <p>But while JavaScript development evolved, most stylesheets are still monolithic and full of global declarations that make new implementations and maintenance overly difficult and complex.</p>
+
+      <p>A recent project called CSS modules aim to bring all these advantages to CSS. With CSS modules, all class names and animation names are scoped locally by default.Webpack embraced the CSS modules proposal from the very beginning, it's built in the CSS loader - all you have to do is activate it by passing the "modules" query string. With this feature enabled, you will be able to export class names from CSS into the consuming component code, locally scoped (so you don't need to worry about having many classes with the same name across different components).</p>
+
+      <p>Let's see this in practice in the sample application. Edit the webpack.config.js to enable CSS Modules (as shown below).</p>
+
+      <p><pre><code class='javascript'>
+module.exports = {
+  devtool: 'eval-source-map',
+
+  entry:  __dirname + &quot;/app/main.js&quot;,
+  output: {...},
+
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: &quot;json&quot;
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel'
+      },
+      {
+        test: /\.css$/,
+        loader: 'style!css<strong>?modules</strong>'
+      }
+    ]
+  },
+
+  devServer: {...}
+}
+      </code></pre></p>
+
+      <p>Next, let's create a CSS file (with style rules that will be used exclusively in the Greeter component) and import those rules in the Greeter.js React module. The new greeter.css file is shown below:</p>
+
+      <p><pre><code class='javascript'>
+.root {
+  background-color: #eee;
+  padding: 10px;
+  border: 3px solid #ccc;
+}
+      </code></pre></p>
+
+      <p>The updated Greeter.js will look like this:</p>
+
+      <p><pre><code class='javascript'>
+import React, {Component} from 'react';
+import config from './config.json';
+<strong>import styles from './Greeter.css';</strong>
+
+class Greeter extends Component{
+  render() {
+    return (
+      &lt;div <strong>className={styles.root}</strong>&gt;
+        {config.greetText}
+      &lt;/div&gt;
+    );
+  }
+}
+
+export default Greeter
+      </code></pre></p>
+
+      <p>Notice in the code above how the css classes were imported into a variable (styles) and are individually applied to a JSX element.</p>
+
+      <p>Also notice that any other component with it's own separate CSS module can also use the same class names without interference: Even highly common style names such as "root", "header", "footer", just to name a few, can now be used safely in local scope.</p>
+
+      <p>CSS modules is a huge theme, with many more features available. Getting deeper in CSS Modules is out of the scope of this appendix, but you can learn more on the official <a href="https://github.com/css-modules/css-modules">documentation on GitHub.</a></p>
+
+
+      <h3>CSS Processors</h3>
+
+      <p>CSS Preprocessors such as Sass and Less are extensions to the original CSS format. They let you write CSS using features that don't exist in CSS like variables, nesting, mixins, inheritance etc. In a concept akin to writing JavaScript ES6 with JSX and letting Babel compile the code to regular JavaScript, CSS processors use a program to convert the special features of the languages into plain CSS that browsers can understand.</p>
+
+      <p>As you may imagine, you can use Loaders to have Webpack take care of this process. There are Webpack loaders available for most commonly used CSS preprocessors:
+        <ul>
+          <li><a href="https://github.com/webpack/less-loader">Less Loader</a></li>
+          <li><a href="https://github.com/jtangelder/sass-loader">Sass Loader</a></li>
+          <li><a href="https://github.com/shama/stylus-loader">Stylus Loader</a></li>
+        </ul>
+      </p>
+
+      <p>A new trend for a more flexible CSS workflow is the usage of PostCSS. Instead of having a complete, fixed set of CSS language extensions, PostCSS is actually a tool for CSS transformation: It let's you connect individual plugins that applies different transformations on your CSS. You can learn more about PostCSS and the available plugins in the <a href="https://github.com/postcss/postcss">project's site</a>.</p>
+
+      <p>To exemplify, let's setup the PostCSS loader with the autoprefixer plugin (which adds vendor prefixes to your CSS) - The use PostCSS with auto prefixing combined with CSS modules is a powerful combination for React projects. Start by installing the PostCSS and the Autoprefixer plugin using npm:</p>
+
+
+      <p><pre><code class='bash'>npm install --save-dev postcss-loader autoprefixer</code></pre></p></p>
+
+      <p>Next, add postcss as a new loader for CSS file formats and create a new section on your webpack configuration to setup which postcss plugins you want to use (in this case, only the Autoprefixer):</p>
+
+      <p><pre><code class='javascript'>
+module.exports = {
+  devtool: 'eval-source-map',
+  entry: __dirname + &quot;/app/main.js&quot;,
+  output: {...},
+
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: &quot;json&quot;
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel'
+      },
+      {
+        test: /\.css$/,
+        loader: 'style!css?modules<strong>!postcss</strong>'
+      }
+    ]
+  },
+<strong>
+  postcss: [
+    require('autoprefixer')
+  ],
+</strong>
+  devServer: {...}
+}
+      </code></pre></p>
+
+
+      <hr />
+
+
+      <h1 id="plugins">Plugins</h1>
+
+      <p>Webpack can be extended through plugins. In Webpack, plugins have the ability to inject themselves into the build process to introduce custom behaviors.</p>
+
+      <p>Loaders and plugins are commonly confused with each other, but they are completely different things. Roughly speaking, loaders deal with each source file, one at a time, as they are "loaded" by webpack during the build process. Plugins in the other hand do not operate on individual source files: they influence the build process as a whole.</p>
+
+      <p>Webpack comes with many built-in plugins, but there are lots of third party plugins available.</p>
+
+      <p>In this topic we will investigate some of the most used and that have the most impact in development experience plugins.</p>
+
+
+
+      <h2 id="usingplugins">Using Plugins</h2>
+
+      <p>To use a plugin, install it using npm (if it's not built-in), import the plugin in the webpack configuration file and add an instance of the plugin object to an "plugins" array.</p>
+
+      <p>To exemplify, let's get started with a very simple built-in plugin: the bannerPlugin. Its purpose is to add any given string to the top of the generated bundle file (useful, for example, to add copyright notices to your project's bundled JavaScript.).</p>
+
+      <p>Since it's a built-in plugin, we can simply import the whole "webpack" module, and add a new "plugins" array. You can see below the updated webpack.config.js with the bannerPlugin setup.</p>
+
+      <p><pre><code class='javascript'>
+<strong>var webpack = require('webpack');</strong>
+
+module.exports = {
+  devtool: 'eval-source-map',
+  entry:  __dirname + &quot;/app/main.js&quot;,
+  output: {...},
+
+  module: {
+    loaders: [
+      { test: /\.json$/, loader: &quot;json&quot; },
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.css$/, loader: 'style!css?modules!postcss' }
+    ]
+  },
+  postcss: [
+    require('autoprefixer')
+  ],
+<strong>
+  plugins: [
+    new webpack.BannerPlugin(&quot;Copyright Flying Unicorns inc.&quot;)
+  ],
+</strong>
+  devServer: {...}
+}
+  </code></pre></p>
+
+
+      <p>With this plugin, the bundled JavaScript file would look something like this:<br /><img src="images/picture8.png" width="513" /></p>
+
+
+
+
+
+
+      <h2 id="htmlwebpackplugin">HtmlWebpackPlugin</h2>
+
+      <p>Among third party webpack plugins, one of the most useful is the HtmlWebpackPlugin.</p>
+
+      <p>The plugin will generate the final HTML5 file for you and include all your webpack bundles. This is especially useful for production builds (covered in next topics), where hashes that change on every compilation are added to bundle filenames (It may sound small, but it can simplify the project structure and save developer's time and effort).</p>
+
+      <p>Start by installing the HtmlWebpackPlugin using npm:</p>
+
+      <p><pre><code class='bash'>npm install --save-dev html-webpack-plugin</code></pre></p>
+
+      <p>Next, you will have to do some modifications in the project structure:</p>
+
+      <ol>
+        <li>Remove the public folder. Since the HTML5 page will be automatically generated, the index.html file you created manually in the public folder can be deleted. Furthermore, since you're also bundling CSS with Webpack, the whole public folder won't be necessary anymore. You can go ahead and remove the public folder entirely.</li>
+        <li>Create a template HTML file. Instead of manually creating the final HTML page that will contain the application, you will create a template html file in the "app" folder. The template page will contain all the custom title, head tags and any other html elements you need, and during the build process the html-webpack-plugin will use this template as the basis for the generated html page, automatically injecting all necessary css, js, manifest and favicon files into the markup. The file will be named "index.tmpl.html", and its source code is shown below:
+          <pre><code class='html'>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+  &lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;title&gt;Webpack Sample Project&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div id='root'&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+          </code></pre>
+        </li>
+        <li>Update the webpack configuration: Setup the HTMLWebpackPlugin and a new build folder. Require the html-webpack-plugin package and add an instance to the plugins array. Also, since the "public" folder is gone, you will need to update the output setting to build and serve the bundled files from a different folder - commonly a "build" folder:
+          <pre><code class='javascript'>
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  devtool: 'eval-source-map',
+
+  entry:  __dirname + &quot;/app/main.js&quot;,
+  output: {
+    <strong>path: __dirname + &quot;/build&quot;,</strong>
+    filename: &quot;bundle.js&quot;
+  },
+
+  module: {
+    loaders: [
+      { test: /\.json$/, loader: &quot;json&quot; },
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.css$/, loader: 'style!css?modules!postcss' }
+    ]
+  },
+  postcss: [
+    require('autoprefixer')
+  ],
+<strong>
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: __dirname + &quot;/app/index.tmpl.html&quot;
+    })
+  ],
+</strong>
+  devServer: {
+    colors: true,
+    historyApiFallback: true,
+    inline: true
+  }
+}
+          </code></pre>
+        </li>
+      </ol>
+
+      <div class='note'>
+        <p><strong>Note:</strong> "The build" folder wont be created until we make a production deploy configuration. While in development, all the bundled files and the generated HTML will be served from memory.</p>
+      </div>
+
+
+
+      <h2 id="hotmodule">Hot Module Replacement</h2>
+
+      <p>One characteristic for which Webpack is renowned for is Hot Module Replacement. Hot Module Replacement (or HMR for short) gives the ability to tweak your components in real time - any changes in the CSS and JS get reflected in the browser instantly without refreshing the page. In other words, thecurrent application state persistseven when you change something in the underlying code.</p>
+
+      <p>Enabling HMR in Webpack is simple, you will need to make two configurations:
+        <ol>
+          <li>Add the HotModuleReplacementPlugin to webpack's configuration.</li>
+          <li>Add the "hot" parameter to the Webpack Dev Server configuration.</li>
+        </ol>
+      </p>
+
+      <p>What's complicated is that your JavaScript modules won't be automatically eligible for hot replacement. Webpack provides an API which you need to implement in your JavaScript modules in order to allow them to be hot replaceable. Although this API isn't difficult to use, there is a more practical way: Using Babel.</p>
+
+      <p>As you've seen, Babel woks together with Webpack and its job is to transform JavaScript files. Currently, in the sample project, it's configured to transform JSX into plain JavaScript calls and ES6 code into JavaScript that browsers can understand today. With the use of a Babel plugin, it is possible to use Webpack to make an additional transformation and add all needed code into your React components to make them hot-replaceable.</p>
+
+      <p>This whole setup does sound convoluted and confusing, so to put it straight:
+        <ul>
+          <li>Webpack and Babel are separate tools</li>
+          <li>Both work great together</li>
+          <li>Both can be extended through plugins</li>
+          <li>Hot module replacement is a Webpack plugin that updates the component in real time on the browser when you change its code. It requires that your modules have special additional code to work.</li>
+          <li>Babel has a plugin called <a href="https://github.com/gaearon/react-transform-hmr">react-transform-hmr</a> that inserts the required HMR code automatically in all your React components.</li>
+        </ul>
+      </p>
+
+      <p>Let's update the sample project you've been working on to enable automatic React components hot replacement. Starting with the Webpack configuration, shown below:</p>
+
+      <p><pre><code class='javascript'>
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  devtool: 'eval-source-map',
+  entry: __dirname + &quot;/app/main.js&quot;,
+  output: {
+    path: __dirname + &quot;/build&quot;,
+    filename: &quot;bundle.js&quot;
+  },
+
+  module: {
+    loaders: [
+      { test: /\.json$/, loader: &quot;json&quot; },
+      { test: /\.js$/, exclude: /node_modules/, loader: 'babel' },
+      { test: /\.css$/, loader: 'style!css?modules!postcss' }
+    ]
+  },
+  postcss: [
+    require('autoprefixer')
+  ],
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: __dirname + &quot;/app/index.tmpl.html&quot;
+    }),
+    <strong>new webpack.HotModuleReplacementPlugin()</strong>
+  ],
+
+  devServer: {
+    colors: true,
+    historyApiFallback: true,
+    inline: true,
+    <strong>hot: true</strong>
+  }
+}
+      </code></pre></p>
+
+      <p>Next, let's take care of Babel. Install the required Babel plugins with npm:</p>
+
+      <p><pre><code class='bash'>npm install --save-dev babel-plugin-react-transform react-transform-hmr</code></pre></p>
+
+      <p>Then, edit the .babelrc configuration file to setup the plugins:</p>
+
+      <p><pre><code class='javascript'>
+{
+  "presets": ["react", "es2015"],
+  <strong>"env": {
+    "development": {
+    "plugins": [["react-transform", {
+       "transforms": [{
+         "transform": "react-transform-hmr",
+         // if you use React Native, pass "react-native" instead:
+         "imports": ["react"],
+         // this is important for Webpack HMR:
+         "locals": ["module"]
+       }]
+       // note: you can put more transforms into array
+       // this is just one of them!
+     }]]
+    }
+  }</strong>
+}
+      </code></pre></p>
+
+      <p>Try running the server again and make some tweaks in the Greeter module - changes will be reflected instantly on the browser without refreshing.</p>
+
+
+
+      <hr />
+
+      <h1 id="buildingfor">Building for production</h1>
+
+      <p>So far you've created a complete development environment using Webpack to bundle and process your project's files. For a production-ready build, you will want some additional processing in you bundle file, including some characteristics like optimization and minification, caching and separation from css and JavaScript files.</p>
+
+      <p>In the Pro React's basic React boilerplate, both development and build configurations were set on a single configuration file (webpack.config.js). For projects with more complete or complex setups, splitting the webpack configuration in multiple files is a good practice to keep everything more organized. In your sample project, create a new file named "webpack.production.config.js" and fill it with some basic setup.</p>
+
+      <p>This is the very basic configuration needed for your project. Notice that it's very similar to the original Webpack development configuration (webpack.config.js), with stripped devtool, devServer and Hot Module Replacement configurations:</p>
+
+      <p><pre><code class='javascript'>
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
+module.exports = {
+  entry: __dirname + "/app/main.js",
+  output: {
+    path: __dirname + "/build",
+    filename: "bundle.js"
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: "json"
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel'
+      },
+      {
+        test: /\.css$/,
+        loader: 'style!css?modules!postcss'
+      }
+    ]
+  },
+  postcss: [
+    require('autoprefixer')
+  ],
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: __dirname + "/app/index.tmpl.html"
+    }),
+  ],
+
+}
+      </code></pre></p>
+
+      <p>In sequence, edit the package.json file to create a new build task, which will run Webpack in production environment and assign the newly created configuration file:</p>
+
+      <p><pre><code class='json'>
+{
+  &quot;name&quot;: &quot;webpack-sample-project&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Sample webpack project&quot;,
+  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;node_modules/.bin/webpack-dev-server --progress&quot;,
+    <strong>&quot;build&quot;: &quot;NODE_ENV=production node_modules/.bin/webpack &#x2013;config ./webpack.production.config.js --progress&quot;</strong>
+  },
+  &quot;author&quot;: &quot;C&aacute;ssio Zen&quot;,
+  &quot;license&quot;: &quot;ISC&quot;,
+  &quot;devDependencies&quot;: {...},
+  &quot;dependencies&quot;: {...}
+}
+      </code></pre></p>
+
+
+
+
+
+      <h2 id="optimizationplugins">Optimization Plugins</h2>
+
+      <p>Webpack comes with some very useful optimization plugins for generating a production-ready build. Many others were made by the community and are available through npm. All the desired characteristics of a production build mentioned above can be achieved through the use of the following Webpack plugins:
+        <ul>
+          <li><strong>OccurenceOrderPlugin</strong> - Webpack gives IDs to identify your modules. With this plugin, Webpack will analyze and prioritize often used modules assigning them the smallest ids.</li>
+          <li><strong>UglifyJsPlugin</strong> - UglifyJS is a JavaScript compressor/minifier.</li>
+          <li><strong>ExtractTextPlugin</strong> - It moves every css requires/imports into a separate css output file (So your styles are no longer inlined into the JavaScript).</li>
+        </ul>
+      </p>
+
+      <p>Let's add all those plugins to our newly created webpack.production.config.js file. Both OccurenceOrder and UglifyJS plugins are built-in, so you will only need to install and require the ExtractText plugin:</p>
+
+      <p><pre><code class='bash'>npm install --save-dev extract-text-webpack-plugin</code></pre></p>
+
+      <p>The updated webpack.production.config.js will look like this:</p>
+
+      <p><pre><code class='javascript'>
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+<strong>var ExtractTextPlugin = require('extract-text-webpack-plugin');</strong>
+
+module.exports = {
+  entry: __dirname + &quot;/app/main.js&quot;,
+  output: {
+    path: __dirname + &quot;/build&quot;,
+    filename: &quot;bundle.js&quot;
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: &quot;json&quot;
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel'
+      },
+      {
+        test: /\.css$/,
+        <strong>loader: ExtractTextPlugin.extract('style', 'css?modules!postcss')</strong>
+      }
+    ]
+  },
+  postcss: [
+    require('autoprefixer')
+  ],
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: __dirname + &quot;/app/index.tmpl.html&quot;
+    }),
+    <strong>new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+    new ExtractTextPlugin(&quot;style.css&quot;)</strong>
+  ]
+}
+      </code></pre></p>
+
+      <h2 id="caching">Caching</h2>
+
+      <p>Modern Internet infrastructure embraces caching everywhere (At CDNs, ISPs, networking equipment, web browsers...), and one simple and effective way to leverage long-term caching in this infrastructure is making sure that your file names are unique and based on their content (that is, if the file content changes, the file name should change too). This way, remote clients can keep their own copy of the content and only request a new one when it's a different file name.</p>
+
+      <p>Webpack can add hashes for the bundled files to their filename, simply by adding special string combinations such as [name], [id] and [hash] to the output file name configuration. The updated Webpack production config using hashes on both the JavaScript and CSS bundled files is shown below:</p>
+
+      <p><pre><code class='javascript'>
+var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+module.exports = {
+  entry: __dirname + &quot;/app/main.js&quot;,
+  output: {
+    path: __dirname + &quot;/build&quot;,
+    <strong>filename: &quot;[name]-[hash].js&quot;</strong>
+  },
+
+  module: {
+    loaders: [
+      {
+        test: /\.json$/,
+        loader: &quot;json&quot;
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel'
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract('style', 'css?modules!postcss')
+      }
+    ]
+  },
+  postcss: [
+    require('autoprefixer')
+  ],
+
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: __dirname + &quot;/app/index.tmpl.html&quot;
+    }),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+    <strong>new ExtractTextPlugin(&quot;[name]-[hash].css&quot;)</strong>
+  ]
+}
+      </code></pre></p>
+
+      <hr />
+
+      <h1 id="summary">Summary</h1>
+
+      <p>Webpack is an amazing tool for processing and bundling together all of your project modules. It is the de facto tool in the React community, and in this appendix you learned how to properly configure it and how to use loaders and plugins to create a better development experience.</p>
+    </div>
+    </main>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+  </body>
+</html>
