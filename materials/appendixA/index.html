@@ -236,6 +236,7 @@ module.exports = {
       <h2 id="addingtask">Adding task Shortcuts</h2>
 
       <p>Executing a long command such as "node_modules/.bin/webpack" is boring and error prone. Thankfully, npm can be used as a task runner, hiding verbose scripts under simple commands such as "npm start". This can be achieved easily by setting up a scripts section to package.json, as shown below:</p>
+      <p>Notice that all scripts configured in the package.json file already have the “node_modules/.bin” folder in the path, so you don’t need to explicitly call the desired command with the full path.</p>
 
       <p><pre><code>
 {
@@ -243,7 +244,7 @@ module.exports = {
   &quot;version&quot;: &quot;1.0.0&quot;,
   &quot;description&quot;: &quot;Sample webpack project&quot;,
   &quot;scripts&quot;: {
-    &quot;start&quot;: &quot;node_modules/.bin/webpack&quot;
+    &quot;start&quot;: &quot;webpack&quot;
   },
   &quot;author&quot;: &quot;C&aacute;ssio Zen&quot;,
   &quot;license&quot;: &quot;ISC&quot;,
@@ -426,11 +427,11 @@ module.exports = {
 }
       </code></pre></p>
 
-      <p>Instead of running the webpack command, now you will execute the "webpack-dev-server" to start the server. As you did previously, you will need to specify the path to the executable inside your project's node modules:</p>
+      <p>Instead of running the webpack command, now you will execute the "webpack-dev-server" to start the server:</p>
 
       <p><pre><code class='bash'>node_modules/.bin/webpack-dev-server</code></pre></p>
 
-      <p>For convenience, you can edit the "scripts" section in your project's package.json file to run the server by invoking "npm start", as shown below:</p>
+      <p>For convenience, you can edit the "scripts" section in your project's package.json file to run the server by invoking "npm start", as shown below (remember that it’s not necessary to fill the complete path to “node_modules/.bin” inside the scripts section):</p>
 
       <p><pre><code>
 {
@@ -438,7 +439,7 @@ module.exports = {
   &quot;version&quot;: &quot;1.0.0&quot;,
   &quot;description&quot;: &quot;Sample webpack project&quot;,
   <strong>&quot;scripts&quot;: {
-    &quot;start&quot;: &quot;node_modules/.bin/webpack-dev-server --progress&quot;
+    &quot;start&quot;: &quot;webpack-dev-server --progress&quot;
   },</strong>
   &quot;author&quot;: &quot;C&aacute;ssio Zen&quot;,
   &quot;license&quot;: &quot;ISC&quot;,
@@ -1187,8 +1188,8 @@ module.exports = {
   &quot;version&quot;: &quot;1.0.0&quot;,
   &quot;description&quot;: &quot;Sample webpack project&quot;,
   &quot;scripts&quot;: {
-    &quot;start&quot;: &quot;node_modules/.bin/webpack-dev-server --progress&quot;,
-    <strong>&quot;build&quot;: &quot;NODE_ENV=production node_modules/.bin/webpack &#x2013;config ./webpack.production.config.js --progress&quot;</strong>
+    &quot;start&quot;: &quot;webpack-dev-server --progress&quot;,
+    <strong>&quot;build&quot;: &quot;NODE_ENV=production webpack -config ./webpack.production.config.js --progress&quot;</strong>
   },
   &quot;author&quot;: &quot;C&aacute;ssio Zen&quot;,
   &quot;license&quot;: &quot;ISC&quot;,
