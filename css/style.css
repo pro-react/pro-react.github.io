@@ -392,6 +392,10 @@ clear:both;
 padding-bottom:10px;
 }
 
+.new {
+  color: #550000;
+}
+
 #shelf {
 padding-bottom:28px;
 text-align:center;
